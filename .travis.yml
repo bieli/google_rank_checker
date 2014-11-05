@@ -11,7 +11,6 @@ before_script:
  - composer install --dev
  - composer update
 script:
- - cd tests
- - pwd
- - php ../vendor/phpunit/phpunit/phpunit tests/
+ - php src/run.php
+ - php ./vendor/phpunit/phpunit/phpunit tests/
 
