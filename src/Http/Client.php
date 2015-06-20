@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace Grc\Http;
 
 class Client {
     public function fetchUrl($url) {

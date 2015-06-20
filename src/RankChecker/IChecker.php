@@ -1,6 +1,6 @@
 <?php
 
-namespace RankChecker;
+namespace Grc\RankChecker;
 
 interface IChecker
 {

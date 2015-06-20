@@ -1,8 +1,8 @@
 <?php
 
-namespace RankChecker\Google;
+namespace Grc\RankChecker\Google;
 
-use RankChecker\IChecker;
+use Grc\RankChecker\IChecker;
 
 class Google extends GoogleRankHash implements IChecker
 {

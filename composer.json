@@ -1,8 +1,8 @@
 {
     "name": "bieli/google_rank_checker",
-    "description": "Google Rank Checker - SEO support library",
+    "description": "Google Page Rank Checker - SEO support library",
     "version": "0.1.0",
-    "keywords": ["google", "rank", "checker"],
+    "keywords": ["google", "page rank", "rank", "checker"],
     "license": "MIT",
     "authors": [
         {
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "\\": "src/"
+            "Grc\\": "src/"
         }
     }
 }

@@ -2,7 +2,8 @@
 
 namespace RankChecker\Google;
 
-use Http\Client;
+use Grc\Http\Client;
+use Grc\RankChecker\Google\Google;
 
 /**
  * Class GoogleRankCheckerTest

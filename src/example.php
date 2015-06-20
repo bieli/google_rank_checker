@@ -1,9 +1,11 @@
 <?php
 
+namespace Grc\Example;
+
 require __DIR__ . '/../vendor/autoload.php';
 
-use Http\Client;
-use RankChecker\Google\Google;
+use \Grc\Http\Client;
+use \Grc\RankChecker\Google\Google;
 
 $url = 'bieli.net';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace RankChecker\Google;
+namespace Grc\RankChecker\Google;
 
 
 class GoogleRankHash {
