@@ -2,17 +2,20 @@
 
 namespace RankChecker\Google;
 
-use IChecker;
-//use RankChecker\IChecker;
+use RankChecker\IChecker;
 
-class Google //implements IChecker
+class Google extends GoogleRankHash implements IChecker
 {
+    const CHECK_QUERY = "http://toolbarqueries.google.com/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s&num=100&filter=0";
+
     private $searchDomain;
     private $keyword;
     private $url;
+    private $pagerank;
+    private $httpClient;
 
-    public function __construct() {
-
+    public function __construct($httpClient) {
+        $this->httpClient = $httpClient;
     }
 
     public function setSearchDomain($googleDomain) {
@@ -52,9 +55,23 @@ class Google //implements IChecker
         ) {
             throw new \BadMethodCallException('You need to use all setters to set up "Google" object');
         }
+
+		$query = sprintf(self::CHECK_QUERY, $this->checkHash($this->hashURL($this->url)), $this->url);
+
+		$data = $this->httpClient->fetchUrl($query);
+
+		$pos = strpos($data, "Rank_");
+
+		if($pos !== false){
+			$this->pagerank = substr($data, $pos + 9);
+			return $this->pagerank;
+		}
+
+        return null;
     }
 
     public function getResultsAsString() {
-        return $this->searchDomain .  ':' . $this->keyword . ':' .  $this->url . "\n\n";
+        return $this->searchDomain .  ':' . $this->keyword . ':' .  $this->url . ":" . $this->pagerank . "\n\n";
     }
 }
+

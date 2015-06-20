@@ -6,7 +6,7 @@
 ### General info
 
 
-Google rank checker - PHP library for building SEO tools
+Google page rank checker - PHP library for building SEO tools
 
 
 ## Specification
@@ -23,12 +23,20 @@ If you need checking for keyword for domain you need execute:
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Http\Client;
 use RankChecker\Google\Google;
 
-$grc = new Google();
+$url = 'bieli.net';
+
+if ($_SERVER['argc'] > 1) {
+    $url = trim($_SERVER['argv'][1]);
+}
+
+$httpClient = new Client();
+$grc = new Google($httpClient);
 
 $grc->setKeyword('marcin bielak');
-$grc->setUrl('bieli.net');
+$grc->setUrl($url);
 $grc->setSearchDomain('google.pl');
 
 try
@@ -47,4 +55,12 @@ catch(\Exception $e)
 
 ```
 
+#### or run example:
 
+```
+$ php src/example.php github.com
+```
+
+#### example output:
+
+google.pl:marcin bielak:github.com:8

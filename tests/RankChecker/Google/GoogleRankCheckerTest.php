@@ -1,21 +1,36 @@
 <?php
 
-namespace Tests\RankChecker\Google;
+namespace RankChecker\Google;
 
-use RankChecker\Google\Google;
+use Http\Client;
 
+/**
+ * Class GoogleRankCheckerTest
+ * @package Tests\RankChecker\Google
+ */
+
+/** @noinspection PhpIllegalPsrClassPathInspection */
 class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
 {
+    private $httpClient;
+
+    public function setUp() {
+        $this->httpClient = new Client();
+    }
+
     public function testIfObjectExists() {
-        $this->assertTrue(new Google() instanceof Google);
+        $this->assertTrue(new Google($this->httpClient) instanceof Google);
     }
 
     public function testShouldSetSearchDomain() {
         // given
         $searchDomain = "google.pl";
 
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
+
         // when
-        $obj = new Google();
         $obj->setSearchDomain($searchDomain);
 
         // then
@@ -29,8 +44,10 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         // given
         $searchDomain = "";
 
-        // when
-        $obj = new Google();
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
+
         $obj->setSearchDomain($searchDomain);
     }
 
@@ -38,8 +55,9 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         // given
         $keyword = "test";
 
-        // when
-        $obj = new Google();
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
         $obj->setSearchDomain($keyword);
 
         // then
@@ -53,8 +71,13 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         // given
         $keyword = "";
 
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
+        $obj->setSearchDomain($keyword);
+
         // when
-        $obj = new Google();
+        $obj = new Google($httpClientMock);
         $obj->setKeyword($keyword);
     }
 
@@ -62,8 +85,11 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         // given
         $url = "http://bieli.net";
 
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
+
         // when
-        $obj = new Google();
         $obj->setUrl($url);
 
         // then
@@ -77,8 +103,11 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         // given
         $url = "";
 
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
+
         // when
-        $obj = new Google();
         $obj->setUrl($url);
     }
 
@@ -87,7 +116,12 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $keyword = "marcin bielak";
         $url = "http://bieli.net";
 
-        $obj = new Google();
+        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock->expects($this->once())
+            ->method('fetchUrl')
+            ->will($this->returnValue('Rank_1:1:1'));
+
+        $obj = new Google($httpClientMock);
         $obj->setKeyword($keyword);
         $obj->setUrl($url);
         $obj->setSearchDomain('google.pl');
@@ -107,7 +141,9 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $keyword = "marcin bielak";
         $url = "http://bieli.net";
 
-        $obj = new Google();
+        $httpClientMock = $this->prepareMockForNeverUsedFetchUrl();
+
+        $obj = new Google($httpClientMock);
         $obj->setKeyword($keyword);
         $obj->setUrl($url);
 
@@ -115,25 +151,41 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $obj->check();
     }
 
+    /**
+     * @Tests
+     */
     public function testShouldGetResultsAsString() {
         // given
-        $expectedResult = 'google.pl:marcin bielak:http://bieli.net' . "\n\n";
+        $expectedResult = 'google.pl:marcin bielak:http://bieli.net:1' . "\n\n";
         $keyword = "marcin bielak";
         $url = "http://bieli.net";
 
-        $obj = new Google();
+        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock->expects($this->once())
+            ->method('fetchUrl')
+            ->will($this->returnValue('Rank_1:1:1'));
+
+        $obj = new Google($httpClientMock);
         $obj->setKeyword($keyword);
         $obj->setUrl($url);
         $obj->setSearchDomain('google.pl');
 
-        $obj->check();
-
         // when
+        $obj->check();
         $result = $obj->getResultsAsString();
 
         // then
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function prepareMockForNeverUsedFetchUrl()
+    {
+        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock->expects($this->never())
+            ->method('fetchUrl');
+        return $httpClientMock;
+    }
 }
- 

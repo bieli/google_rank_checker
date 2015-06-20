@@ -1,5 +1,7 @@
 <?php
 
+namespace RankChecker;
+
 interface IChecker
 {
     public function setSearchDomain($searchDomain);
