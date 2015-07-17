@@ -2,7 +2,7 @@
 
 namespace RankChecker\Google;
 
-use Grc\Http\Client;
+use Grc\Http\SimpleHttpClient;
 use Grc\RankChecker\Google\Google;
 
 /**
@@ -16,7 +16,7 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
     private $httpClient;
 
     public function setUp() {
-        $this->httpClient = new Client();
+        $this->httpClient = new SimpleHttpClient();
     }
 
     public function testIfObjectExists() {
@@ -117,7 +117,7 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $keyword = "marcin bielak";
         $url = "http://bieli.net";
 
-        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock = $this->getMock('SimpleHttpClient', array('fetchUrl'));
         $httpClientMock->expects($this->once())
             ->method('fetchUrl')
             ->will($this->returnValue('Rank_1:1:1'));
@@ -161,7 +161,7 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $keyword = "marcin bielak";
         $url = "http://bieli.net";
 
-        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock = $this->getMock('SimpleHttpClient', array('fetchUrl'));
         $httpClientMock->expects($this->once())
             ->method('fetchUrl')
             ->will($this->returnValue('Rank_1:1:1'));
@@ -184,7 +184,7 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
      */
     private function prepareMockForNeverUsedFetchUrl()
     {
-        $httpClientMock = $this->getMock('Client', array('fetchUrl'));
+        $httpClientMock = $this->getMock('SimpleHttpClient', array('fetchUrl'));
         $httpClientMock->expects($this->never())
             ->method('fetchUrl');
         return $httpClientMock;

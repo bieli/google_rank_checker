@@ -2,7 +2,7 @@
 
 namespace Grc\Http;
 
-class Client {
+class SimpleHttpClient implements IHttpClient {
     public function fetchUrl($url) {
         return file_get_contents($url);
     }
