@@ -21,10 +21,12 @@ If you need checking for keyword for domain you need execute:
 ```php
 <?php
 
+namespace Grc\Example;
+
 require __DIR__ . '/../vendor/autoload.php';
 
-use Http\Client;
-use RankChecker\Google\Google;
+use \Grc\Http\GuzzleHttpClient;
+use \Grc\RankChecker\Google\Google;
 
 $url = 'bieli.net';
 
@@ -32,26 +34,16 @@ if ($_SERVER['argc'] > 1) {
     $url = trim($_SERVER['argv'][1]);
 }
 
-$httpClient = new Client();
+$httpClient = new GuzzleHttpClient();
 $grc = new Google($httpClient);
 
 $grc->setKeyword('marcin bielak');
 $grc->setUrl($url);
 $grc->setSearchDomain('google.pl');
 
-try
-{
-    $grc->check();
-    echo $grc->getResultsAsString();
-}
-catch(\BadMethodCallException $e)
-{
-    die($e->getMessage());
-}
-catch(\Exception $e)
-{
-    die($e->getMessage());
-}
+$grc->check();
+
+echo $grc->getResultsAsString();
 
 ```
 
