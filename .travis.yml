@@ -8,11 +8,12 @@ branches:
  only:
   - master
 before_script:
- - composer self-update
- - composer install
- - composer update
- - composer install --dev
- - composer update
+ - curl -sS https://getcomposer.org/installer | php
+ - php composer.phar self-update
+ - php composer.phar install -vvv
+ - php composer.phar update -vvv
+ - php composer.phar install --dev -vvv
+ - php composer.phar update -vvv
 script:
  - php src/example.php
  - php ./vendor/phpunit/phpunit/phpunit tests/
