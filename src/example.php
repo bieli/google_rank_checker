@@ -22,4 +22,5 @@ $grc->setSearchDomain('google.pl');
 
 $grc->check();
 
-echo $grc->getResultsAsString();
+//echo $grc->getResultsAsString();
+echo $grc->getPageRank();

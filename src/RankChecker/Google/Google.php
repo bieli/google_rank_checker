@@ -73,5 +73,9 @@ class Google extends GoogleRankHash implements IChecker
     public function getResultsAsString() {
         return $this->searchDomain .  ':' . $this->keyword . ':' .  $this->url . ":" . $this->pagerank . "\n\n";
     }
+
+    public function getPageRank() {
+        return $this->pagerank;
+    }
 }
 
