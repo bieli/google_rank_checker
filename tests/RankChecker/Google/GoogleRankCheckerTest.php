@@ -112,6 +112,28 @@ class GoogleRankCheckerTest extends \PHPUnit_Framework_TestCase
         $obj->setUrl($url);
     }
 
+    /**
+     * @expectedException \UnexpectedValueException
+     */
+    public function testExpectExceptionWhenWebserviceReturnEmptyDataResult() {
+        // given
+        $keyword = "abbbbbbbbbbaaaaaaaaaabbbbbbbccccadsoijadfoiahhdfasdkfjsf";
+        $url = "http://bieli.net";
+
+        $httpClientMock = $this->getMock('GuzzleHttpClient', array('fetchUrl'));
+        $httpClientMock->expects($this->once())
+            ->method('fetchUrl')
+            ->will($this->returnValue(null));
+
+        $obj = new Google($httpClientMock);
+        $obj->setKeyword($keyword);
+        $obj->setUrl($url);
+        $obj->setSearchDomain('google.pl');
+
+        // when
+        $obj->check();
+    }
+
     public function testShouldCheck() {
         // given
         $keyword = "marcin bielak";

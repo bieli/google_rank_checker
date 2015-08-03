@@ -14,13 +14,20 @@ if ($_SERVER['argc'] > 1) {
 }
 
 $httpClient = new GuzzleHttpClient();
-$grc = new Google($httpClient);
 
-$grc->setKeyword('marcin bielak');
-$grc->setUrl($url);
-$grc->setSearchDomain('google.pl');
+try
+{
+    $grc = new Google($httpClient);
 
-$grc->check();
+    $grc->setKeyword('marcin bielak');
+    $grc->setUrl($url);
+    $grc->setSearchDomain('google.pl');
+    $grc->check();
 
-//echo $grc->getResultsAsString();
-echo $grc->getPageRank();
+    echo $grc->getPageRank();
+}
+catch (\Exception $exception)
+{
+    printf("[ ERROR ] Exception '%s': '%s'\n",  get_class($exception), $exception->getMessage());
+}
+

@@ -60,6 +60,10 @@ class Google extends GoogleRankHash implements IChecker
 
 		$data = $this->httpClient->fetchUrl($query);
 
+    if (empty($data)) {
+        throw new \UnexpectedValueException('Empty data in result - maybe your IP is blocked');
+    }
+
 		$pos = strpos($data, "Rank_");
 
 		if($pos !== false){

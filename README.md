@@ -13,10 +13,11 @@ Google page rank checker - PHP library for building SEO tools
 
 This repository it is tool set for free using.
 
+
 Usage
 -----
 
-If you need checking for keyword for domain you need execute:
+If you need checking for keyword for domain you need below PHP code:
 
 ```php
 <?php
@@ -35,15 +36,22 @@ if ($_SERVER['argc'] > 1) {
 }
 
 $httpClient = new GuzzleHttpClient();
-$grc = new Google($httpClient);
 
-$grc->setKeyword('marcin bielak');
-$grc->setUrl($url);
-$grc->setSearchDomain('google.pl');
+try
+{
+    $grc = new Google($httpClient);
 
-$grc->check();
+    $grc->setKeyword('marcin bielak');
+    $grc->setUrl($url);
+    $grc->setSearchDomain('google.pl');
+    $grc->check();
 
-echo $grc->getResultsAsString();
+    echo $grc->getPageRank();
+}
+catch (\Exception $exception)
+{
+    printf("[ ERROR ] Exception '%s': '%s'\n",  get_class($exception), $exception->getMessage());
+}
 
 ```
 
@@ -55,4 +63,12 @@ $ php src/example.php github.com
 
 #### example output:
 
-google.pl:marcin bielak:github.com:8
+8
+
+
+#### how to run unit tests:
+
+```
+$ php ./vendor/phpunit/phpunit/phpunit tests/
+```
+
