@@ -13,6 +13,14 @@ Google page rank checker - PHP library for building SEO tools
 
 This repository it is tool set for free using.
 
+## Installation
+
+The recommended way to install `google_rank_checker` is through composer.
+Try install Composer from https://getcomposer.org/download/ first and use command:
+```
+$ php composer.phar install
+```
+
 
 Usage
 -----
